@@ -1,0 +1,32 @@
+import sys
+from PIL import Image
+import base64
+import cStringIO
+import PIL.Image
+import pymysql
+
+connection = pymysql.connect(host='localhost',
+                             user='root',
+                             password='',
+                             db='manan',
+                             charset='utf8mb4',
+                             cursorclass=pymysql.cursors.DictCursor)
+
+image = Image.open("/home/agile/img/image_scraper/images")
+blob_value = open("/home/agile/img/image_scraper/images", 'rb').read()
+sql = 'INSERT INTO image(images) VALUES(%s)'    
+args = (blob_value, )
+cursor=db.cursor()
+cursor.execute(sql,args)
+
+
+#sql1='select * from image'
+#db.commit()
+#cursor.execute(sql1)
+#data=cursor.fetchall()
+#print type(data[0][0])
+#file_like=cStringIO.StringIO(data[0][0])
+#img=PIL.Image.open(file_like)
+#img.show()
+
+db.close()

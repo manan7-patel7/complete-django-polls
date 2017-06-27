@@ -1,0 +1,23 @@
+from bs4 import BeautifulSoup
+from urllib2 import urlopen
+import urllib
+
+# use this image scraper from the location that 
+#you want to save scraped images to
+
+def make_soup('https://www.pinterest.com/janew/delicious/'):
+    html = urlopen('https://www.pinterest.com/janew/delicious/').read()
+    return BeautifulSoup(html)
+
+def get_images('https://www.pinterest.com/janew/delicious/'):
+    soup = make_soup('https://www.pinterest.com/janew/delicious/')
+    #this makes a list of bs4 element tags
+    images = [img for img in soup.findAll('img')]
+    print (str(len(images)) + "images found.")
+    print 'Downloading images to current working directory.'
+    #compile our unicode list of image links
+    image_links = [each.get('src') for each in images]
+    for each in image_links:
+        filename=each.split('/')[-1]
+        urllib.urlretrieve(each, filename)
+    return image_links
